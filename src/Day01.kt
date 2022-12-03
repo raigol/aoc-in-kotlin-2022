@@ -1,17 +1,40 @@
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+
+    fun getElfCalories(input: List<String>): List<Int> {
+        var sum = 0
+        val elfTotals = mutableListOf<Int>()
+        for (i in input)
+        {
+            if(i.isNotBlank())
+            {
+                sum += i.toInt()
+            } else
+            {
+                elfTotals.add(sum)
+                sum=0
+            }
+        }
+
+        elfTotals.add(sum)
+
+        return elfTotals
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    fun sumOfNBiggestElfCalories(input: List<String>, n: Int): Int {
+        val elfTotals = getElfCalories(input)
+
+        return elfTotals.sortedDescending()
+                .take(n)
+                .sum()
     }
 
-    // test if implementation meets criteria from the description, like:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
     val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    check(sumOfNBiggestElfCalories(testInput, 1) == 24000)
+
+    println("Biggest calories test: " +sumOfNBiggestElfCalories(testInput, 1))
+
+    println("Biggest calories: " + sumOfNBiggestElfCalories(input, 1))
+    println("3 Biggest calories total: "+ sumOfNBiggestElfCalories(input, 3))
 }
